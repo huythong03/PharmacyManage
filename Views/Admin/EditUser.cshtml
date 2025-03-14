@@ -1,0 +1,34 @@
+﻿@model PharmacyWeb.Controllers.UserRoleViewModel
+
+@{
+    ViewData["Title"] = "Sửa Người Dùng - PharmacyWeb";
+    var allRoles = ViewBag.AllRoles as IEnumerable<string>;
+}
+
+<h2>Sửa Người Dùng: @Model.UserName</h2>
+
+<form asp-action="EditUser">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="UserId" />
+    <div class="form-group">
+        <label class="control-label">Tên Người Dùng</label>
+        <input asp-for="UserName" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Email</label>
+        <input asp-for="Email" class="form-control" disabled />
+    </div>
+    <div class="form-group">
+        <label class="control-label">Vai Trò</label>
+        <select multiple class="form-control" name="selectedRoles">
+            @foreach (var role in allRoles)
+            {
+                    <option value="@role" selected="@(Model.Roles.Contains(role))">@role</option>
+            }
+        </select>
+    </div>
+    <div class="form-group mt-3">
+        <input type="submit" value="Lưu" class="btn btn-primary" />
+        <a asp-action="Users" class="btn btn-secondary">Quay Lại</a>
+    </div>
+</form>

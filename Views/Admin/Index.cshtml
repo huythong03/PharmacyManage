@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Bảng Điều Khiển Quản Trị - PharmacyWeb";
+}
+
+<h2>Bảng Điều Khiển Quản Trị</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="AssignPharmacistRole" method="post">
+    <div class="form-group">
+        <label>Email</label>
+        <input name="email" class="form-control" placeholder="Nhập email người dùng" />
+    </div>
+    <button type="submit" class="btn btn-primary">Gán Vai Trò Dược Sĩ</button>
+</form>

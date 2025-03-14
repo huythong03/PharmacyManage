@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PharmacyWeb</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="particles-js"></div>
+
+    <!-- Navbar từ _Layout.cshtml -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-capsule"></i> PharmacyWeb
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <!-- Navbar Admin -->
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Medicine" asp-action="Index">
+                                        <i class="bi bi-capsule-pill"></i> Quản Lý Thuốc
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-receipt"></i> Quản Lý Bán Hàng
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="salesDropdown">
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="Index">Ghi Nhận Doanh Thu</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="Create">Thêm Doanh Thu</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="DailyReport">Báo Cáo Doanh Thu</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Shop" asp-action="Cart">
+                                        <i class="bi bi-cart"></i> Quản Lý Giỏ Hàng
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-tools"></i> Quản Lý Hệ Thống
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Hồ Sơ Cá Nhân</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Roles">Quản Lý Vai Trò</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="Users">Quản Lý Người Dùng</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            else if (User.IsInRole("Pharmacist"))
+                            {
+                                <!-- Navbar Pharmacist -->
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                        <i class="bi bi-shop"></i> Trang Chủ
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Shop" asp-action="Index">
+                                        <i class="bi bi-clipboard2-pulse"></i> Danh Sách Thuốc
+                                    </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="salesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-receipt"></i> Quản Lý Bán Hàng
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="salesDropdown">
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="Index">Ghi Nhận Doanh Thu</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="Create">Thêm Doanh Thu</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Sale" asp-action="DailyReport">Báo Cáo Doanh Thu</a></li>
+                                    </ul>
+                                </li>
+                                <!-- Thêm mục Hồ Sơ Cá Nhân cho Pharmacist -->
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                        <i class="bi bi-person-circle"></i> Hồ Sơ Cá Nhân
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <!-- Navbar khách hàng thông thường -->
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                        <i class="bi bi-shop"></i> Trang Chủ
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Shop" asp-action="Index">
+                                        <i class="bi bi-clipboard2-pulse"></i> Danh Sách Thuốc
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Shop" asp-action="Cart">
+                                        <i class="bi bi-cart"></i> Giỏ Hàng
+                                    </a>
+                                </li>
+                                <!-- Thêm mục Hồ Sơ Cá Nhân cho Khách hàng -->
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                        <i class="bi bi-person-circle"></i> Hồ Sơ Cá Nhân
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <!-- Navbar cho khách chưa đăng nhập -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                    <i class="bi bi-shop"></i> Trang Chủ
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Shop" asp-action="Index">
+                                    <i class="bi bi-clipboard2-pulse"></i> Danh Sách Thuốc
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Nội dung chính với Sidebar -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-md-4 mb-4">
+                <div class="manage-sidebar">
+                    <h4 class="manage-sidebar-title"><i class="bi bi-person-circle me-2"></i>Hồ Sơ Cá Nhân</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "Index" ? "active" : "")" asp-page="/Account/Manage/Index">
+                                <i class="bi bi-person me-2"></i>Thông tin cá nhân
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "Email" ? "active" : "")" asp-page="/Account/Manage/Email">
+                                <i class="bi bi-envelope me-2"></i>Email
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "ChangePassword" ? "active" : "")" asp-page="/Account/Manage/ChangePassword">
+                                <i class="bi bi-lock me-2"></i>Đổi mật khẩu
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "TwoFactorAuthentication" ? "active" : "")" asp-page="/Account/Manage/TwoFactorAuthentication">
+                                <i class="bi bi-shield-lock me-2"></i>Xác thực hai yếu tố
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "ExternalLogins" ? "active" : "")" asp-page="/Account/Manage/ExternalLogins">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập bên ngoài
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(ViewData["ActivePage"] == "PersonalData" ? "active" : "")" asp-page="/Account/Manage/PersonalData">
+                                <i class="bi bi-file-person me-2"></i>Dữ liệu cá nhân
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Nội dung chính -->
+            <div class="col-lg-9 col-md-8">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget Chat -->
+    <div id="new-chat-widget">
+        <div id="new-chat-header">
+            <h5 class="mb-0">Chat Với Dược Sĩ</h5>
+            <button id="new-chat-close" class="btn btn-sm btn-light">X</button>
+        </div>
+        <div id="new-chat-messages"></div>
+        <div id="new-chat-input-area">
+            <div class="input-group">
+                <input id="new-chat-input" type="text" class="form-control" placeholder="Nhập tin nhắn..." />
+                <button id="new-chat-send" class="btn btn-primary">Gửi</button>
+            </div>
+            @if (User.IsInRole("Admin") || User.IsInRole("Pharmacist"))
+            {
+                <div class="mt-2">
+                    <select id="new-chat-client-id" class="form-select">
+                        <option value="">Chọn khách hàng</option>
+                    </select>
+                </div>
+            }
+        </div>
+    </div>
+    <button id="new-chat-toggle" class="btn btn-primary">Chat</button>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            © 2025 - PharmacyWeb - Hệ thống quản lý nhà thuốc
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="~/js/particles-config.js" asp-append-version="true"></script>
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/chatHub")
+            .withAutomaticReconnect()
+            .build();
+
+        let messageHistory = [];
+        const isPharmacist = @(User.IsInRole("Admin") || User.IsInRole("Pharmacist") ? "true" : "false");
+
+        function displayMessage(user, message, clientId) {
+            const msgHtml = `<div class="message"><strong>${user}:</strong> ${message}` +
+                           (isPharmacist && clientId ? ` <small>(ID: ${clientId})</small>` : "") +
+                           `</div>`;
+            const $messages = $("#new-chat-messages");
+            if ($messages.length) {
+                $messages.append(msgHtml);
+                $messages.scrollTop($messages[0].scrollHeight);
+                console.log(`[Client] Đã thêm tin nhắn: ${msgHtml}`);
+            } else {
+                console.error("[Client] Không tìm thấy #new-chat-messages");
+            }
+        }
+
+        connection.on("ReceiveMessage", (user, message, clientId) => {
+            console.log(`[Client] Nhận tin nhắn từ ${user}: ${message} (Client ID: ${clientId || "N/A"})`);
+            messageHistory.push({ user, message, clientId });
+            displayMessage(user, message, clientId);
+
+            const $widget = $("#new-chat-widget");
+            if ($widget.is(":hidden")) {
+                $widget.show();
+                $("#new-chat-toggle").hide();
+                console.log("[Client] Đã mở widget chat");
+            }
+        });
+
+        connection.on("UpdateClientList", (clients) => {
+            console.log("[Client] Cập nhật danh sách khách: ", clients);
+            const $select = $("#new-chat-client-id");
+            if ($select.length) {
+                $select.empty().append('<option value="">Chọn khách hàng</option>');
+                for (const [id, name] of Object.entries(clients)) {
+                    $select.append(`<option value="${id}">${name} (ID: ${id})</option>`);
+                }
+            } else {
+                console.error("[Client] Không tìm thấy #new-chat-client-id");
+            }
+        });
+
+        connection.onclose((error) => {
+            console.error("[Client] Kết nối SignalR đóng: ", error);
+        });
+
+        connection.start()
+            .then(() => console.log("[Client] Kết nối SignalR thành công. Connection ID: " + connection.connectionId))
+            .catch(err => console.error("[Client] Lỗi kết nối SignalR: ", err));
+
+        $("#new-chat-send").on("click", () => {
+            const message = $("#new-chat-input").val().trim();
+            if (message) {
+                const user = @Json.Serialize(User.Identity.IsAuthenticated ? User.Identity.Name : "Khách");
+                console.log(`[Client] Chuẩn bị gửi tin nhắn từ ${user}: ${message}`);
+        @if (User.IsInRole("Admin") || User.IsInRole("Pharmacist"))
+        {
+            <text>
+                                const clientId = $("#new-chat-client-id").val();
+                                if (clientId) {
+                                    connection.invoke("SendMessageToClient", clientId, message)
+                                        .then(() => console.log(`[Client] Dược sĩ gửi đến ${clientId}: ${message}`))
+                                        .catch(err => console.error("[Client] Lỗi gửi từ dược sĩ: ", err));
+                                } else {
+                                    alert("Vui lòng chọn khách hàng để trả lời.");
+                                }
+            </text>
+        }
+        else
+        {
+            <text>
+                                connection.invoke("SendMessageToPharmacist", user, message)
+                                    .then(() => console.log(`[Client] Khách gửi: ${message}`))
+                                    .catch(err => console.error("[Client] Lỗi gửi từ khách: ", err));
+            </text>
+        }
+                $("#new-chat-input").val("");
+            }
+        });
+
+        $("#new-chat-input").on("keypress", (e) => {
+            if (e.which === 13) {
+                $("#new-chat-send").click();
+            }
+        });
+
+        $("#new-chat-toggle").on("click", () => {
+            const $widget = $("#new-chat-widget");
+            const $messages = $("#new-chat-messages");
+            $widget.show();
+            $("#new-chat-toggle").hide();
+            console.log("[Client] Widget chat đã được mở");
+
+            if (messageHistory.length > 0 && $messages.length) {
+                $messages.empty();
+                messageHistory.forEach(msg => displayMessage(msg.user, msg.message, msg.clientId));
+                console.log("[Client] Đã hiển thị lại lịch sử tin nhắn");
+            }
+        });
+
+        $("#new-chat-close").on("click", () => {
+            $("#new-chat-widget").hide();
+            $("#new-chat-toggle").show();
+            console.log("[Client] Widget chat đã được đóng");
+        });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

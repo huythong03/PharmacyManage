@@ -1,0 +1,113 @@
+﻿@model IEnumerable<PharmacyWeb.Models.Medicine>
+
+@{
+    ViewData["Title"] = "Quản Lý Thuốc - PharmacyWeb";
+    var lowStockMedicines = ViewBag.LowStockMedicines as IEnumerable<PharmacyWeb.Models.Medicine>;
+    var expiringMedicines = ViewBag.ExpiringMedicines as IEnumerable<PharmacyWeb.Models.Medicine>;
+    var selectedCategory = ViewContext.ModelState["category"]?.AttemptedValue;
+}
+
+<h2 class="text-center mb-4" style="color: #2c3e50;">Quản Lý Thuốc</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Form lọc theo danh mục -->
+<div class="mb-4 row">
+    <div class="col-md-4">
+        <label class="form-label fw-bold" style="color: #34495e;">Lọc theo danh mục:</label>
+        <form asp-action="Index" method="get">
+            <select name="category" class="form-select border-primary" onchange="this.form.submit()">
+                <option value="">Tất cả</option>
+                @foreach (var cat in ViewBag.Categories)
+                {
+                    if (selectedCategory == cat)
+                    {
+                        <option value="@cat" selected>@cat</option>
+                    }
+                    else
+                    {
+                        <option value="@cat">@cat</option>
+                    }
+                }
+            </select>
+        </form>
+    </div>
+</div>
+
+@if (lowStockMedicines != null && lowStockMedicines.Any())
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">Cảnh Báo Hết Hàng</h4>
+        <ul class="mb-0">
+            @foreach (var medicine in lowStockMedicines)
+            {
+                <li>@medicine.Name - Chỉ còn @medicine.StockQuantity đơn vị!</li>
+            }
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (expiringMedicines != null && expiringMedicines.Any())
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h4 class="alert-heading">Cảnh Báo Hết Hạn</h4>
+        <ul class="mb-0">
+            @foreach (var medicine in expiringMedicines)
+            {
+                <li>@medicine.Name - Hết hạn vào @medicine.ExpiryDate.ToString("dd/MM/yyyy")</li>
+            }
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th class="text-center" style="width: 20%;">Tên Thuốc</th>
+                <th class="text-center" style="width: 15%;">Giá</th>
+                <th class="text-center" style="width: 15%;">Số Lượng Tồn Kho</th>
+                <th class="text-center" style="width: 20%;">Ngày Hết Hạn</th>
+                <th class="text-center" style="width: 15%;">Danh Mục</th>
+                <th class="text-center" style="width: 15%;">Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="@(item.StockQuantity <= 10 ? "table-danger" : (item.ExpiryDate <= DateTime.Now.AddDays(30) ? "table-warning" : ""))">
+                    <td class="text-start ps-3">@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td class="text-end pe-3">@Html.DisplayFor(modelItem => item.Price) VNĐ</td>
+                    <td class="text-center">@Html.DisplayFor(modelItem => item.StockQuantity)</td>
+                    <td class="text-center">@item.ExpiryDate.ToString("dd/MM/yyyy")</td>
+                    <td class="text-center">@item.Category</td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center gap-2">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p class="text-end mt-3">
+    <a asp-action="Create" class="btn btn-primary btn-lg">Thêm Thuốc Mới</a>
+</p>

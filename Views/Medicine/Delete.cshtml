@@ -1,0 +1,28 @@
+﻿@model PharmacyWeb.Models.Medicine
+
+@{
+    ViewData["Title"] = "Xóa Thuốc - PharmacyWeb";
+}
+
+<h2>Xóa Thuốc</h2>
+
+<h3>Bạn có chắc chắn muốn xóa thuốc này không?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <dl class="row">
+        <dt class="col-sm-2">Giá</dt>
+        <dd class="col-sm-10">@Model.Price VNĐ</dd>
+        <dt class="col-sm-2">Số Lượng</dt>
+        <dd class="col-sm-10">@Model.StockQuantity</dd>
+        <dt class="col-sm-2">Hạn Sử Dụng</dt>
+        <dd class="col-sm-10">@Model.ExpiryDate.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-2">Danh Mục</dt>
+        <dd class="col-sm-10">@Model.Category</dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa Thuốc" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

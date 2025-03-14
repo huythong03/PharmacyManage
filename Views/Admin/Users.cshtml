@@ -1,0 +1,40 @@
+﻿@model IEnumerable<PharmacyWeb.Controllers.UserRoleViewModel>
+
+@{
+    ViewData["Title"] = "Quản Lý Người Dùng - PharmacyWeb";
+}
+
+<h2>Quản Lý Người Dùng</h2>
+
+@if (TempData["Success"] != null)
+{
+        <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên Người Dùng</th>
+            <th>Email</th>
+            <th>Vai Trò</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+                <tr>
+                    <td>@user.UserName</td>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", user.Roles)</td>
+                    <td>
+                        <a asp-action="EditUser" asp-route-id="@user.UserId" class="btn btn-primary btn-sm">Sửa</a>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

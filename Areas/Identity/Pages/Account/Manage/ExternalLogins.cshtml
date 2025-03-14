@@ -1,0 +1,43 @@
+﻿@page
+@model ExternalLoginsModel
+@{
+    ViewData["Title"] = "Đăng nhập bên ngoài";
+    ViewData["ActivePage"] = "ExternalLogins";
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+}
+
+<div class="manage-content">
+    <h2>Đăng nhập bên ngoài</h2>
+    @if (Model.CurrentLogins?.Count > 0)
+    {
+        <h4>Tài khoản đã liên kết</h4>
+        <ul class="list-group mb-3">
+            @foreach (var login in Model.CurrentLogins)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    @login.ProviderDisplayName
+                    <form asp-page-handler="RemoveLogin" asp-route-loginProvider="@login.LoginProvider" asp-route-providerKey="@login.ProviderKey" method="post">
+                        <button type="submit" class="btn btn-danger btn-sm">Gỡ</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Chưa có tài khoản bên ngoài nào được liên kết.</p>
+    }
+
+    @if (Model.OtherLogins?.Count > 0)
+    {
+        <h4>Liên kết tài khoản mới</h4>
+        <form asp-page-handler="LinkLogin" method="post">
+            <div>
+                @foreach (var provider in Model.OtherLogins)
+                {
+                    <button type="submit" name="provider" value="@provider.Name" class="btn btn-primary me-2">@provider.DisplayName</button>
+                }
+            </div>
+        </form>
+    }
+</div>

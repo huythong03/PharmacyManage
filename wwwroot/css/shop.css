@@ -1,0 +1,207 @@
+﻿/* General Styles */
+body {
+    background: #f5f5ff;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
+
+/* Header */
+.shop-header {
+    font-size: 2.6rem;
+    font-weight: 800;
+    text-align: center;
+    margin: 50px 0;
+    color: #4f46e5;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+/* Medicine Card */
+.medicine-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    border: 2px solid transparent;
+    background: linear-gradient(#fff, #fff) padding-box, linear-gradient(45deg, #a5b4fc, #e0e7ff) border-box;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.medicine-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.medicine-card .card-body {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.medicine-card .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.medicine-card .card-icon {
+    font-size: 2rem;
+    color: #4f46e5;
+    margin-right: 10px;
+}
+
+.medicine-card .card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #4f46e5;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.medicine-card .card-text {
+    color: #64748b;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+}
+
+    .medicine-card .card-text i {
+        margin-right: 8px;
+        color: #4f46e5;
+    }
+
+.medicine-card .price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f59e0b;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+    .medicine-card .price i {
+        margin-right: 8px;
+        color: #f59e0b;
+    }
+
+/* Buttons */
+.btn-add-to-cart {
+    background: linear-gradient(90deg, #4f46e5 0%, #4338ca 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+    .btn-add-to-cart:hover {
+        background: linear-gradient(90deg, #4338ca 0%, #3730a3 100%);
+        transform: scale(1.03);
+        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.4);
+    }
+
+    .btn-add-to-cart:disabled {
+        background: #adb5bd;
+        transform: none;
+        box-shadow: none;
+    }
+
+/* Category Filter */
+.category-filter {
+    border-radius: 10px;
+    border: 1px solid #e0e7ff;
+    padding: 10px 15px;
+    font-size: 1rem;
+    background: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+    .category-filter:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 8px rgba(79, 70, 229, 0.2);
+    }
+
+/* No Stock Badge */
+.no-stock {
+    background: #fef2f2;
+    color: #dc2626;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Custom Alert */
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1050;
+    max-width: 400px;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+
+.custom-alert .btn-close {
+    font-size: 1rem;
+}
+
+/* Spinner Customization */
+.spinner-border-sm {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-width: 0.25em;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767px) {
+    .shop-header {
+        font-size: 2rem;
+    }
+
+    .medicine-card .card-title {
+        font-size: 1.3rem;
+    }
+
+    .medicine-card .price {
+        font-size: 1.2rem;
+    }
+}

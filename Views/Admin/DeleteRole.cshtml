@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IdentityRole
+
+@{
+    ViewData["Title"] = "Xóa Vai Trò - PharmacyWeb";
+}
+
+<h2>Xóa Vai Trò</h2>
+
+<h3>Bạn có chắc muốn xóa vai trò này?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <form asp-action="DeleteRole">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a asp-action="Roles" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

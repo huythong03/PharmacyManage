@@ -1,0 +1,23 @@
+﻿@page
+@model TwoFactorAuthenticationModel
+@{
+    ViewData["Title"] = "Xác thực hai yếu tố";
+    ViewData["ActivePage"] = "TwoFactorAuthentication";
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+}
+
+<div class="manage-content">
+    <h2>Xác thực hai yếu tố</h2>
+    @if (Model.Is2faEnabled)
+    {
+        <p class="text-success">Xác thực hai yếu tố đã được kích hoạt.</p>
+        <form method="post" asp-page-handler="Disable2fa">
+            <button type="submit" class="btn btn-danger">Tắt 2FA</button>
+        </form>
+    }
+    else
+    {
+        <p>Xác thực hai yếu tố chưa được kích hoạt.</p>
+        <a asp-page="./EnableAuthenticator" class="btn btn-primary">Kích hoạt 2FA</a>
+    }
+</div>

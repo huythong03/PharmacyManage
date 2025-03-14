@@ -1,0 +1,18 @@
+﻿@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Dữ liệu cá nhân";
+    ViewData["ActivePage"] = "PersonalData";
+    Layout = "~/Views/Shared/_ManageLayout.cshtml";
+}
+
+<div class="manage-content">
+    <h2>Dữ liệu cá nhân</h2>
+    <p>Đây là dữ liệu cá nhân của bạn. Bạn có thể tải xuống hoặc xóa dữ liệu này.</p>
+    <div class="d-flex gap-3">
+        <form method="post" asp-page-handler="Download">
+            <button type="submit" class="btn btn-primary">Tải xuống</button>
+        </form>
+        <a asp-page="./DeletePersonalData" class="btn btn-danger">Xóa dữ liệu</a>
+    </div>
+</div>
