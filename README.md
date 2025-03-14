@@ -31,5 +31,5 @@ PharmacyWeb được phát triển với mục tiêu tạo ra một trang web qu
 ### Các bước cài đặt
 1. **Clone repository**:
    ```bash
-   git clone https://github.com/[username]/[repositories].git
+   git clone https://github.com/huythong03/PharmacyManage.git
    cd PharmacyWeb
