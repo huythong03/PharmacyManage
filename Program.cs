@@ -31,7 +31,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 	.AddEntityFrameworkStores<PharmacyWebContext>()
 	.AddDefaultTokenProviders()
-	.AddDefaultUI(); // Đảm bảo UI mặc định được thêm nếu cần
+	.AddDefaultUI();
 
 // Register repositories
 builder.Services.AddScoped<IMedicineRepository, MedicineRepository>();

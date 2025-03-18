@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmacyWeb.Data;
 
@@ -11,9 +12,11 @@ using PharmacyWeb.Data;
 namespace PharmacyWeb.Migrations
 {
     [DbContext(typeof(PharmacyWebContext))]
-    partial class PharmacyWebContextModelSnapshot : ModelSnapshot
+    [Migration("20250318031059_AddImageUrlToMedicines")]
+    partial class AddImageUrlToMedicines
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

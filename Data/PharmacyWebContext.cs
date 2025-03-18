@@ -19,12 +19,19 @@ public class PharmacyWebContext : IdentityDbContext
 	{
 		base.OnModelCreating(modelBuilder);
 
+		// Cấu hình độ chính xác cho Price trong Medicine
 		modelBuilder.Entity<Medicine>()
 			.Property(m => m.Price)
 			.HasPrecision(10, 2);
 
+		// Cấu hình độ chính xác cho TotalPrice trong Sale
 		modelBuilder.Entity<Sale>()
 			.Property(s => s.TotalPrice)
 			.HasPrecision(10, 2);
+
+		// Đảm bảo ánh xạ bảng Medicines (nếu cần tùy chỉnh tên bảng)
+		modelBuilder.Entity<Medicine>().ToTable("Medicines");
+		modelBuilder.Entity<Sale>().ToTable("Sales");
+		modelBuilder.Entity<CartItem>().ToTable("CartItems");
 	}
 }

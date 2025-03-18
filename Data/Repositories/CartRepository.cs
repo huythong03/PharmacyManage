@@ -17,6 +17,7 @@ namespace PharmacyWeb.Data.Repositories
 		{
 			return await _context.CartItems
 				.Include(c => c.Medicine)
+				.AsNoTracking()
 				.Where(c => c.UserId == userId)
 				.ToListAsync();
 		}

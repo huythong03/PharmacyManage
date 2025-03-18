@@ -6,7 +6,7 @@ body {
     padding: 0;
     position: relative;
     min-height: 100vh;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 /* Particles Background */
@@ -289,9 +289,81 @@ body {
 
 /* Footer Customization */
 .footer {
-    padding: 20px 0;
-    text-align: center;
+    background: #f8f9fa;
+    color: #6b7280;
+    padding: 40px 0 20px;
+    font-size: 0.9rem;
+    border-top: 1px solid #e0e7ff;
 }
+
+.footer-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4f46e5;
+    margin-bottom: 15px;
+}
+
+.footer ul {
+    padding-left: 0;
+}
+
+    .footer ul li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .footer ul li i {
+            color: #4f46e5;
+            margin-right: 8px;
+        }
+
+.footer-link {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .footer-link:hover {
+        color: #3b82f6;
+    }
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-link {
+    color: #6b7280;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+    .social-link:hover {
+        color: #3b82f6;
+    }
+
+.footer-divider {
+    border-top: 1px solid #e0e7ff;
+    margin: 20px 0;
+}
+
+.footer .text-center p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #4b5563;
+}
+
+.developer-link {
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+    .developer-link:hover {
+        color: #3b82f6;
+    }
 
 /* Responsive Adjustments */
 @media (max-width: 991px) {
@@ -310,5 +382,31 @@ body {
 
     .manage-sidebar {
         margin-bottom: 2rem;
+    }
+
+    .footer {
+        padding: 30px 0 15px;
+    }
+
+        .footer .col-md-4 {
+            margin-bottom: 20px;
+        }
+}
+
+@media (max-width: 575px) {
+    .footer {
+        padding: 20px 0 10px;
+    }
+
+    .footer-title {
+        font-size: 1rem;
+    }
+
+    .footer ul li {
+        font-size: 0.85rem;
+    }
+
+    .social-link {
+        font-size: 1.3rem;
     }
 }

@@ -15,4 +15,5 @@ public class Medicine
 	public int StockQuantity { get; set; }
 	public DateTime ExpiryDate { get; set; }
 	public string? Category { get; set; }
+	public string? ImageUrl { get; set; }
 }

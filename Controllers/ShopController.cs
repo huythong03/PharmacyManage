@@ -48,7 +48,11 @@ namespace PharmacyWeb.Controllers
 		public async Task<IActionResult> AddToCart(int medicineId, int quantity)
 		{
 			var medicine = await _medicineRepository.GetMedicineByIdAsync(medicineId);
-			if (medicine == null || medicine.StockQuantity < quantity)
+			if (medicine == null)
+			{
+				return Json(new { success = false, message = "Thuốc không tồn tại!" });
+			}
+			if (medicine.StockQuantity < quantity)
 			{
 				return Json(new { success = false, message = "Không đủ hàng tồn kho!" });
 			}
@@ -86,24 +90,40 @@ namespace PharmacyWeb.Controllers
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			var cartItems = await _cartRepository.GetCartItemsAsync(userId);
 
+			if (!cartItems.Any())
+			{
+				TempData["Error"] = "Giỏ hàng của bạn đang trống!";
+				return RedirectToAction("Cart");
+			}
+
 			foreach (var item in cartItems)
 			{
-				var medicine = await _medicineRepository.GetMedicineByIdAsync(item.MedicineId);
-				if (medicine.StockQuantity >= item.Quantity)
+				// Sử dụng trực tiếp Medicine từ cartItems thay vì tải lại
+				var medicine = item.Medicine; // Lấy từ Include trong GetCartItemsAsync
+				if (medicine == null)
 				{
-					medicine.StockQuantity -= item.Quantity;
-					await _medicineRepository.UpdateMedicineAsync(medicine);
-
-					var sale = new Sale
-					{
-						MedicineId = item.MedicineId,
-						Quantity = item.Quantity,
-						TotalPrice = medicine.Price * item.Quantity,
-						SaleDate = DateTime.Now,
-						CustomerName = User.Identity.Name
-					};
-					await _saleRepository.AddSaleAsync(sale);
+					TempData["Error"] = "Không tìm thấy thuốc trong giỏ hàng!";
+					return RedirectToAction("Cart");
 				}
+				if (medicine.StockQuantity < item.Quantity)
+				{
+					TempData["Error"] = $"Không đủ hàng tồn kho cho {medicine.Name}!";
+					return RedirectToAction("Cart");
+				}
+
+				// Cập nhật StockQuantity
+				medicine.StockQuantity -= item.Quantity;
+				await _medicineRepository.UpdateMedicineAsync(medicine);
+
+				var sale = new Sale
+				{
+					MedicineId = item.MedicineId,
+					Quantity = item.Quantity,
+					TotalPrice = medicine.Price * item.Quantity,
+					SaleDate = DateTime.Now,
+					CustomerName = User.Identity.Name
+				};
+				await _saleRepository.AddSaleAsync(sale);
 			}
 
 			await _cartRepository.ClearCartAsync(userId);
