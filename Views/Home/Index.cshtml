@@ -2,25 +2,27 @@
     ViewData["Title"] = "Trang Chủ - PharmacyWeb";
 }
 
-    <div class="d-flex align-items-center justify-content-center min-vh-100">
-        <div class="home-container animate__animated animate__fadeIn text-center">
-            <div class="card border-0 shadow-lg" style="background: #ffffff; border-radius: 20px; max-width: 900px; width: 100%;">
-                <div class="card-body p-5">
-                    <div class="mb-4">
-                        <h1 class="fw-bold text-success" style="font-size: 2.8rem; letter-spacing: 2px;">Chào Mừng Đến Với PharmacyWeb</h1>
-                        <p class="lead text-muted mt-3" style="font-size: 1.3rem;">Chăm sóc sức khỏe dễ dàng hơn bao giờ hết</p>
-                    </div>
-                    <div class="row justify-content-center mb-5">
-                        <div class="col-md-8">
-                            <p class="text-muted">PharmacyWeb là giải pháp quản lý nhà thuốc hiện đại, giúp bạn theo dõi thuốc, bán hàng và chăm sóc khách hàng một cách hiệu quả và đơn giản.</p>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-center gap-4 flex-wrap">
-                        @if (User.Identity.IsAuthenticated)
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+    <div class="home-container animate__animated animate__fadeIn text-center">
+        <div class="card border-0 shadow-lg" style="background: #ffffff; border-radius: 20px; max-width: 900px; width: 100%;">
+            <div class="card-body p-5">
+                <div class="mb-4">
+                    <h1 class="fw-bold text-success" style="font-size: 2.8rem; letter-spacing: 2px;">Chào Mừng Đến Với PharmacyWeb</h1>
+                    <p class="lead text-muted mt-3" style="font-size: 1.3rem;">Chăm sóc sức khỏe dễ dàng hơn bao giờ hết</p>
+                </div>
+
+                <div class="d-flex justify-content-center gap-4 flex-wrap">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+						@if (User.IsInRole("Admin"))
                         {
-                            <a asp-controller="Shop" asp-action="Index" class="btn btn-success btn-lg py-3 px-5 fw-bold ripple-effect" style="background: linear-gradient(135deg, #34c759, #22d3ee); border-radius: 15px;">Xem Thuốc</a>
+                            <a asp-controller="Medicine" asp-action="Index" class="btn btn-success btn-lg py-3 px-5 fw-bold ripple-effect" style="background: linear-gradient(135deg, #34c759, #22d3ee); border-radius: 15px;">Quản Lý Thuốc</a>
+                        }
+                        else {
+                            <a asp-controller="Shop" asp-action="Index" class="btn btn-success btn-lg py-3 px-5 fw-bold ripple-effect" style="background: linear-gradient(135deg, #34c759, #22d3ee); border-radius: 15px;">Xem thuốc</a>
                             <a asp-controller="Shop" asp-action="Cart" class="btn btn-outline-success btn-lg py-3 px-5 fw-bold" style="border-radius: 15px;">Giỏ Hàng</a>
                         }
+                    }
                         else
                         {
                             <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-success btn-lg py-3 px-5 fw-bold ripple-effect" style="background: linear-gradient(135deg, #34c759, #22d3ee); border-radius: 15px;">Đăng Nhập</a>

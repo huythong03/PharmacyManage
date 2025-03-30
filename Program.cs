@@ -24,7 +24,7 @@ builder.Services.AddDbContext<PharmacyWebContext>(options =>
 // Register Identity with custom options
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
-	options.SignIn.RequireConfirmedAccount = false; // Tắt yêu cầu xác nhận tài khoản để test
+	options.SignIn.RequireConfirmedAccount = false;
 	options.Password.RequireDigit = true;
 	options.Password.RequiredLength = 6;
 	options.Password.RequireNonAlphanumeric = false;
@@ -42,8 +42,15 @@ builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
-// Register SignalR
-builder.Services.AddSignalR();
+// Register SignalR with custom options
+builder.Services.AddSignalR(options =>
+{
+	options.MaximumReceiveMessageSize = 102400; // Tăng giới hạn kích thước tin nhắn
+	options.EnableDetailedErrors = true; // Bật lỗi chi tiết để debug
+	options.KeepAliveInterval = TimeSpan.FromSeconds(15); // Gửi tín hiệu keep-alive mỗi 15 giây
+	options.HandshakeTimeout = TimeSpan.FromSeconds(30); // Timeout cho handshake
+	options.ClientTimeoutInterval = TimeSpan.FromSeconds(60); // Timeout cho client
+});
 
 // Register Localization
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
@@ -56,6 +63,7 @@ builder.Services.AddLogging(logging =>
 {
 	logging.AddConsole();
 	logging.AddDebug();
+	logging.SetMinimumLevel(LogLevel.Debug); // Đặt mức log tối thiểu là Debug
 });
 
 var app = builder.Build();
@@ -81,13 +89,18 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 	SupportedUICultures = new[] { new CultureInfo("vi-VN") }
 });
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+// Map routes
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
+
+// Map SignalR Hub
 app.MapHub<ChatHub>("/chatHub");
 
 // Seed data

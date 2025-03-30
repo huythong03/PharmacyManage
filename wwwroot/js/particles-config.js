@@ -22,7 +22,7 @@
         events: {
             onhover: { enable: true, mode: ["grab"] }, // Kéo chấm lại gần khi hover
             onclick: { enable: true, mode: "push" }, // Thêm chấm khi click
-            resize: true
+            resize: true // Bật tự động resize
         },
         modes: {
             grab: { distance: 120, line_linked: { opacity: 0.7 } }, // Đường nối sáng hơn khi hover
@@ -32,19 +32,31 @@
     retina_detect: true
 });
 
+// Hàm debounce để giới hạn tần suất gọi
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
 // Hàm điều chỉnh chiều cao particles theo trang
 function updateParticlesHeight() {
     const particlesContainer = document.getElementById('particles-js');
     if (particlesContainer) {
         const bodyHeight = document.body.scrollHeight;
         particlesContainer.style.height = `${bodyHeight}px`;
-        if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
-            window.pJSDom[0].pJS.fn.vendors.resize();
+        if (window.pJSDom && window.pJSDom.length > 0) {
+            window.dispatchEvent(new Event('resize'));
         }
     }
 }
 
+// Áp dụng debounce cho updateParticlesHeight
+const debouncedUpdateParticlesHeight = debounce(updateParticlesHeight, 100);
+
 // Chạy khi trang tải, resize hoặc scroll
-window.addEventListener('load', updateParticlesHeight);
-window.addEventListener('resize', updateParticlesHeight);
-window.addEventListener('scroll', updateParticlesHeight);
+window.addEventListener('load', debouncedUpdateParticlesHeight);
+window.addEventListener('resize', debouncedUpdateParticlesHeight);
+window.addEventListener('scroll', debouncedUpdateParticlesHeight);
