@@ -32,4 +32,4 @@ PharmacyWeb được phát triển với mục tiêu tạo ra một trang web qu
 1. **Clone repository**:
    ```bash
    git clone https://github.com/huythong03/PharmacyManage.git
-   cd PharmacyWeb
+   cd PharmacyManage
